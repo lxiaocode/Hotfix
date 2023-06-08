@@ -12,10 +12,6 @@ public class VersionSettor : MonoBehaviour {
     public static string RUNTIME_PATCH_PATH_FORMAT { get { return Application.persistentDataPath + "/Version_{0}"; } }
     public static string WWW_RUNTIME_PATCH_PATH_FORMAT { get { return "file://" + RUNTIME_PATCH_PATH_FORMAT; } }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
 
     public void OnClickSetVersion()
     {
@@ -46,6 +42,7 @@ public class VersionSettor : MonoBehaviour {
         if (Directory.Exists(runtimePatchPath)) { Directory.Delete(runtimePatchPath, true); }
         Directory.CreateDirectory(runtimePatchPath);
 
+        // TODO 这里应该是从服务器中下载
         //2. extract files from zip
         string zipPatchFile = string.Format(ZIP_PATCH_FORMAT, updateVersion);
         WWW zipPatchFileReader = new WWW(zipPatchFile);
@@ -68,17 +65,6 @@ public class VersionSettor : MonoBehaviour {
         ZipHelper.UnZip(zipLibil2cppPath, runtimePatchPath, "", true);
 
         //4. tell libboostrap.so to use the right patch after reboot
-
-        //!!!! wrong streamingAssetsPath in Google aab
-        //jar:file:///data/app/x.x.x/base.apk!/assets/
-        //int apkPathStart = Application.streamingAssetsPath.IndexOf("/data");
-        //int apkPathEnd = Application.streamingAssetsPath.IndexOf("!");
-        //string apkPath = Application.streamingAssetsPath.Substring(apkPathStart,apkPathEnd - apkPathStart);
-        //if (string.IsNullOrEmpty(apkPath))
-        //{
-        //    messageBox.Show("use failed. apk path not found in [" + Application.streamingAssetsPath + "]", "ok", () => { messageBox.Close(); });
-        //    yield break;
-        //}
         string apkPath = "";
         string error = Bootstrap.use_data_dir(runtimePatchPath, apkPath);
         if (!string.IsNullOrEmpty(error))

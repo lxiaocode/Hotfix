@@ -36,9 +36,9 @@ public class AndroidBuilder : MonoBehaviour
     
     public static string SO_DIR_NAME = "jniLibs";
     
-    // TODO 修改为 mac、liunx 版本
     public static string ZIP_PATH = "zip";
     
+    // TODO 执行shell脚本时 exit_code=255
     static bool Exec(string filename, string args)
     {
         System.Diagnostics.Process process = new System.Diagnostics.Process();
@@ -161,7 +161,7 @@ public class AndroidBuilder : MonoBehaviour
             return false;
         }
 
-        // TODO 2020 以上版本导出项目不再生成 libil2cpp.so 文件，需要自己编译
+        // 2020 以上版本导出项目不再生成 libil2cpp.so 文件，需要自己编译
         string il2cppPath = BUILD_SCRIPTS_PATH + "/Il2CppOutputProject/IL2CPP/build/deploy/il2cpp";
         string outputPath = SO_LIB_PATH + "/arm64-v8a/libil2cpp.so";
         string baseLibPath = BUILD_SCRIPTS_PATH + "/jniStaticLibs/arm64-v8a";
@@ -232,7 +232,6 @@ import io.github.noodle1983.Boostrap;");
 
         string[][] soPatchFile =
         {
-            // TODO 2021 版本导出项目不会生成 libil2cpp
             // path_in_android_project, filename inside zip, zip file name
             new string[3]{ "/"+ SO_DIR_NAME + "/arm64-v8a/libil2cpp.so", "libil2cpp.so.new", "lib_arm64-v8a_libil2cpp.so.zip" },
         };
@@ -275,17 +274,12 @@ import io.github.noodle1983.Boostrap;");
                 Debug.LogError("exec failed: chmod zip_patches.sh");
                 return false; 
             }
-            
-            // if (!Exec(zipPatchesFile, zipPatchesFile))
-            // {
-            //     Debug.LogError("exec failed:" + zipPatchesFile);
-            //     return false;
-            // }
         }
         
         return true;
     }
 
+    // TODO 使用生成的脚本无法正常编译打包
     [MenuItem("AndroidBuilder/Step 4: Generate Build Scripts")]
     public static bool GenerateBuildScripts()
     {
