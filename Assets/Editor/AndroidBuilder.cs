@@ -37,7 +37,7 @@ public class AndroidBuilder : MonoBehaviour
     public static string SO_DIR_NAME = "jniLibs";
     
     // TODO 修改为 mac、liunx 版本
-    public static string ZIP_PATH = PROJECT_DIR + "/Assets/AndroidIl2cppPatchDemo/Editor/zip";
+    public static string ZIP_PATH = "zip";
     
     static bool Exec(string filename, string args)
     {
@@ -222,7 +222,7 @@ import io.github.noodle1983.Boostrap;");
     [MenuItem("AndroidBuilder/Step 3: Generate Bin Patches")]
     public static bool GenerateBinPatches()
     {
-        string assetBinDataPath = EXPORTED_ASSETS_PATH + "/bin/Data/";
+        string assetBinDataPath = EXPORTED_ASSETS_PATH + "bin/Data/";
         
         string patchTopPath = PROJECT_DIR + "/AllAndroidPatchFiles/";
         string assertBinDataPatchPath = patchTopPath + "/assets_bin_Data/";
@@ -234,7 +234,7 @@ import io.github.noodle1983.Boostrap;");
         {
             // TODO 2021 版本导出项目不会生成 libil2cpp
             // path_in_android_project, filename inside zip, zip file name
-            // new string[3]{ "/"+ SO_DIR_NAME + "/arm64-v8a/libil2cpp.so", "libil2cpp.so.new", "lib_arm64-v8a_libil2cpp.so.zip" },
+            new string[3]{ "/"+ SO_DIR_NAME + "/arm64-v8a/libil2cpp.so", "libil2cpp.so.new", "lib_arm64-v8a_libil2cpp.so.zip" },
         };
         
         for (int i = 0; i < soPatchFile.Length; i++)
@@ -250,8 +250,8 @@ import io.github.noodle1983.Boostrap;");
         
         string[] allAssetsBinDataFiles = Directory.GetFiles(assetBinDataPath, "*", SearchOption.AllDirectories);
         StringBuilder allZipCmds = new StringBuilder();
-        allZipCmds.AppendFormat("if [ ! -d \"{0}\" ]; then mkdir {0}; fi", patchTopPath);
-        allZipCmds.AppendFormat("if [ ! -d \"{0}\" ]; then mkdir {0}; fi", assertBinDataPatchPath);
+        allZipCmds.AppendFormat("if [ ! -d \"{0}\" ]; then mkdir {0}; fi\n", patchTopPath);
+        allZipCmds.AppendFormat("if [ ! -d \"{0}\" ]; then mkdir {0}; fi\n", assertBinDataPatchPath);
         foreach (string apk_file in allAssetsBinDataFiles)
         {
             string relativePathHeader = "assets/bin/Data/";
@@ -263,17 +263,24 @@ import io.github.noodle1983.Boostrap;");
             allZipCmds.AppendFormat("cd {0} && {1} -8 \"{2}\" \"{3}\"\n", BUILD_SCRIPTS_PATH, ZIP_PATH, assertBinDataPatchPath + zipFileName, filenameInZip);
         }
         allZipCmds.Append("sleep 1\n");
-        allZipCmds.AppendFormat("cd {0} && {1} -9 -r \"{2}\" \"{3}\"\n", patchTopPath, ZIP_PATH, PROJECT_DIR + "/AllAndroidPatchFiles_Versionx.zip", "*");
-
+        allZipCmds.AppendFormat("cd {0} && {1} -9 -r \"{2}\" {3}\n", patchTopPath, ZIP_PATH, PROJECT_DIR + "/AllAndroidPatchFiles_Version1.zip", ".");
+        
         if (allZipCmds.Length > 0)
         {
             string zipPatchesFile = BUILD_SCRIPTS_PATH + "/" + "zip_patches.sh";
             File.WriteAllText(zipPatchesFile, allZipCmds.ToString());
-            if (!Exec(zipPatchesFile, zipPatchesFile))
+            
+            if (!Exec("chmod", " 755 " + BUILD_SCRIPTS_PATH + "/zip_patches.sh"))
             {
-                Debug.LogError("exec failed:" + zipPatchesFile);
-                return false;
+                Debug.LogError("exec failed: chmod zip_patches.sh");
+                return false; 
             }
+            
+            // if (!Exec(zipPatchesFile, zipPatchesFile))
+            // {
+            //     Debug.LogError("exec failed:" + zipPatchesFile);
+            //     return false;
+            // }
         }
         
         return true;
