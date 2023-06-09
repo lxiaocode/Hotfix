@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 namespace xasset.editor
 {
@@ -61,7 +63,15 @@ namespace xasset.editor
                     : BuildOptions.None
             };
             BuildPipeline.BuildPlayer(options);
+            CreatePatchUpdateInfo(path, 0);
             EditorUtility.OpenWithDefaultApp(path);
+        }
+
+        public static void CreatePatchUpdateInfo(string path, int version)
+        {
+            var patchUpdateInfo = Utility.LoadFromFile<PatchUpdateInfo>(path + "/patch_updateinfo.json");
+            patchUpdateInfo.version = version;
+            File.WriteAllText(path + "/patch_updateinfo.json", JsonUtility.ToJson(patchUpdateInfo));
         }
     }
 }

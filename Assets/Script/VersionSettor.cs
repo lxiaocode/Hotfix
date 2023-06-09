@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using xasset;
 
 public class VersionSettor : MonoBehaviour {
     public int updateVersion = 0;
@@ -12,11 +13,11 @@ public class VersionSettor : MonoBehaviour {
     public static string RUNTIME_PATCH_PATH_FORMAT { get { return Application.persistentDataPath + "/Version_{0}"; } }
     public static string WWW_RUNTIME_PATCH_PATH_FORMAT { get { return "file://" + RUNTIME_PATCH_PATH_FORMAT; } }
 
-
     public void OnClickSetVersion()
     {
         if (messageBox.gameObject.activeInHierarchy) { return; }
 
+        StartCoroutine(CheckVersion());
         if (updateVersion <= 0)
         {
             string error = Bootstrap.use_data_dir("", "");
@@ -35,6 +36,18 @@ public class VersionSettor : MonoBehaviour {
 
     //-----------------------------------------------------------------------------------------------
 
+    private IEnumerator CheckVersion()
+    {
+        var getPatchUpdateInfoAsync = Assets.GetPatchUpdateInfoAsync();
+        yield return getPatchUpdateInfoAsync;
+        if (getPatchUpdateInfoAsync.result != Request.Result.Success) { yield break; }
+
+        if (Assets.PlayerAssets.patchVersion < getPatchUpdateInfoAsync.info.version)
+        {
+            updateVersion = getPatchUpdateInfoAsync.info.version;
+        }
+    }
+    
     private IEnumerator PreparePatchAndRestart()
     {
         //1. clear files if exist
@@ -44,16 +57,25 @@ public class VersionSettor : MonoBehaviour {
 
         // TODO 这里应该是从服务器中下载
         //2. extract files from zip
-        string zipPatchFile = string.Format(ZIP_PATCH_FORMAT, updateVersion);
-        WWW zipPatchFileReader = new WWW(zipPatchFile);
-        while (!zipPatchFileReader.isDone) { yield return null; }
-        if (zipPatchFileReader.error != null)
-        {      
-            messageBox.Show("failed to get zip patch file:" + zipPatchFile, "ok", () => { messageBox.Close(); });
-            yield break;
-        }
-        byte[] zipContent = zipPatchFileReader.bytes;
-        ZipHelper.UnZipBytes(zipContent, runtimePatchPath, "", true);
+        // string zipPatchFile = string.Format(ZIP_PATCH_FORMAT, updateVersion);
+        // WWW zipPatchFileReader = new WWW(zipPatchFile);
+        // while (!zipPatchFileReader.isDone) { yield return null; }
+        // if (zipPatchFileReader.error != null)
+        // {      
+        //     messageBox.Show("failed to get zip patch file:" + zipPatchFile, "ok", () => { messageBox.Close(); });
+        //     yield break;
+        // }
+        // byte[] zipContent = zipPatchFileReader.bytes;
+        // ZipHelper.UnZipBytes(zipContent, runtimePatchPath, "", true);
+        
+
+
+        var patchAsync = Assets.PatchAsync(updateVersion);
+        yield return patchAsync;
+        if (patchAsync.result != Request.Result.Success) { yield break; }
+        ZipHelper.UnZipBytes(patchAsync.patchZip, runtimePatchPath, "", true);
+
+        
 
         //3. prepare libil2cpp, unzip with name: libil2cpp.so.new
         string zipLibil2cppPath = runtimePatchPath + "/lib_" + Bootstrap.get_arch_abi() + "_libil2cpp.so.zip";

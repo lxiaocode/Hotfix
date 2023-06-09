@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     collectAllAssets: 0
-    simulationMode: 1
+    simulationMode: 0
     updatable: 1
-    updateInfoURL: http://127.0.0.1/
-    downloadURL: http://127.0.0.1/Bundles
+    updateInfoURL: https://a.unity.cn/client_api/v1/buckets/e5327e3d-227d-4751-b27e-706f76bfbbff/entry_by_path/content/?path=
+    downloadURL: https://a.unity.cn/client_api/v1/buckets/e5327e3d-227d-4751-b27e-706f76bfbbff/entry_by_path/content/?path=
     playerURL: http://127.0.0.1/Build/xasset.apk
     splitMode: 2
     packed: 1

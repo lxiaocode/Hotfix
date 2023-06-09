@@ -27,6 +27,11 @@ namespace xasset
         public bool autoSlicing;
         public float autoSliceTimestep;
         public float autoRecycleTimestep;
+        // il2cpp patch
+        // 母包版本
+        public int patchVersion;
+        // 服务器更新信息URL
+        public string patchUpdateInfoURL;
 
         public bool Contains(string key)
         {

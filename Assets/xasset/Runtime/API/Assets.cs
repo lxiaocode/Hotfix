@@ -62,6 +62,20 @@ namespace xasset
             request.SendRequest();
             return request;
         }
+        
+        public static GetPatchUpdateInfoRequest GetPatchUpdateInfoAsync()
+        {
+            var request = new GetPatchUpdateInfoRequest();
+            request.SendRequest();
+            return request;
+        }
+        
+        public static PatchRequest PatchAsync(int version)
+        {
+            var request = new PatchRequest() { version = version };
+            request.SendRequest();
+            return request;
+        }
 
         public static VersionsRequest GetVersionsAsync(UpdateInfo info)
         {

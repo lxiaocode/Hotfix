@@ -6,6 +6,6 @@ public class Log : MonoBehaviour
 {
     public void TestLog()
     {
-        Debug.Log("Version 0: AAAAAAAAA");
+        Debug.Log("Version 3: DDDDDDDDD");
     }
 }

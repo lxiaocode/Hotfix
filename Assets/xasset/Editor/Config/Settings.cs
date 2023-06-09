@@ -206,6 +206,9 @@ namespace xasset.editor
             assets.autoSliceTimestep = player.autoSliceTimestep;
             assets.autoSlicing = player.autoSlicing;
             assets.autoRecycleTimestep = player.autoRecycleTimestep;
+            // il2cpp
+            assets.patchVersion = 0;
+            assets.patchUpdateInfoURL = $"{player.downloadURL}/{Platform}/patch_updateinfo.json";
             if (Platform != Platform.WebGL) return assets;
             assets.packed = false;
             assets.splitMode = PlayerAssetsSplitMode.IncludeAllAssets;

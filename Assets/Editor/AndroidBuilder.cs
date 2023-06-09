@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEditor.Android;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
+using xasset;
 
 public class AndroidBuilder : MonoBehaviour
 {
@@ -426,5 +427,27 @@ import io.github.noodle1983.Boostrap;");
             return false;
         }
         return true;
+    }
+
+    [MenuItem("Build/Build Patch")]
+    public static bool BuildPatch()
+    {
+        ExportGradleProject();
+        GenerateBinPatches();
+        
+        // patch_updateinfo.json
+        string[] patchUpdateInfoFiles = Directory.GetFiles(PROJECT_DIR + "/build", "patch_updateinfo.json", SearchOption.AllDirectories);
+        if (patchUpdateInfoFiles.Length > 0)
+        {
+            string patchUpdateInfoPath = patchUpdateInfoFiles[0];
+            var patchUpdateInfo = Utility.LoadFromFile<PatchUpdateInfo>(patchUpdateInfoPath);
+            // TODO 更新其他信息
+            patchUpdateInfo.version += 1;
+            File.WriteAllText(patchUpdateInfoPath, JsonUtility.ToJson(patchUpdateInfo));
+
+            return true;
+        }
+
+        return false;
     }
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
     bundle: arts/prefabs.bundle
     type: GameObject
     entry: Assets/Game/Prefabs
-    lastWriteTime: 133307178955385906
+    lastWriteTime: 133307519081262575
     addressMode: 2
     dependencies: []
     group: {fileID: 11400000, guid: d4c60234e4402234daa6609fa9f05e70, type: 2}
@@ -25,7 +25,7 @@ MonoBehaviour:
     bundle: arts/prefabs.bundle
     type: GameObject
     entry: Assets/xasset/Samples/Prefabs
-    lastWriteTime: 133307167365544071
+    lastWriteTime: 133307194211727418
     addressMode: 2
     dependencies: []
     group: {fileID: 11400000, guid: d4c60234e4402234daa6609fa9f05e70, type: 2}
@@ -33,7 +33,7 @@ MonoBehaviour:
     bundle: arts/prefabs.bundle
     type: GameObject
     entry: Assets/xasset/Samples/Prefabs
-    lastWriteTime: 133307167364294200
+    lastWriteTime: 133307194211727921
     addressMode: 2
     dependencies:
     - Assets/xasset/Samples/Prefabs/CycleReferences2.prefab
@@ -42,7 +42,7 @@ MonoBehaviour:
     bundle: arts/prefabs.bundle
     type: GameObject
     entry: Assets/xasset/Samples/Prefabs
-    lastWriteTime: 133307167365690979
+    lastWriteTime: 133307194211728541
     addressMode: 2
     dependencies:
     - Assets/xasset/Samples/Prefabs/CycleReferences1.prefab
@@ -51,7 +51,7 @@ MonoBehaviour:
     bundle: arts/prefabs.bundle
     type: GameObject
     entry: Assets/xasset/Samples/Prefabs
-    lastWriteTime: 133307167359117079
+    lastWriteTime: 133307194211729156
     addressMode: 2
     dependencies:
     - Assets/xasset/Samples/Textures/Borders/Basic/Basic Filled 10px.png
@@ -61,7 +61,7 @@ MonoBehaviour:
     bundle: arts/prefabs.bundle
     type: GameObject
     entry: Assets/xasset/Samples/Prefabs
-    lastWriteTime: 133307167359011971
+    lastWriteTime: 133307194211730204
     addressMode: 2
     dependencies:
     - Assets/xasset/Samples/Prefabs/Animations/MessageBox.anim
@@ -76,7 +76,7 @@ MonoBehaviour:
     bundle: arts/shaders.bundle
     type: Shader
     entry: Assets/xasset/Samples/Shaders
-    lastWriteTime: 133307167367335915
+    lastWriteTime: 133307194211766219
     addressMode: 0
     dependencies: []
     group: {fileID: 11400000, guid: 7c6a82dfff178744f96c710bbbf2ffd7, type: 2}
