@@ -9,25 +9,6 @@ namespace xasset.editor
         private const string kSimulationMode = "xasset/Simulation Mode";
         private const string kUpdatable = "xasset/Updatable";
 
-
-        [MenuItem("xasset/About xasset", false, 1)]
-        public static void OpenAbout()
-        {
-            Application.OpenURL("https://xasset.cc");
-        }
-
-        [MenuItem("xasset/Check for Updates", false, 1)]
-        public static void CheckForUpdates()
-        {
-            Application.OpenURL("https://xasset.cc/docs/change-log");
-        }
-
-        [MenuItem("xasset/Get Unity Online Services", false, 1)]
-        public static void GetUnityOnlineServices()
-        {
-            Application.OpenURL("https://uos.unity.cn");
-        }
-
         [MenuItem("xasset/Settings", false, 80)]
         public static void PingSettings()
         {

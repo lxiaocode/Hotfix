@@ -239,13 +239,6 @@ namespace xasset.editor
             var set = new HashSet<ManifestBundle>();
             switch (settings.player.splitMode)
             {
-                case PlayerAssetsSplitMode.SplitByAssetPacksWithInstallTime:
-                    if (EditorUtility.DisplayDialog("提示", "开源版本不提供分包机制，购买专业版可以解锁这个功能，立即前往？", "确定"))
-                    {
-                        MenuItems.OpenAbout();
-                    }
-
-                    break;
                 case PlayerAssetsSplitMode.ExcludeAllAssets:
                     break;
                 case PlayerAssetsSplitMode.IncludeAllAssets:
